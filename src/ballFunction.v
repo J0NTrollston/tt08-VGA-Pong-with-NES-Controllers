@@ -35,7 +35,7 @@ reg [9:0] ball_center_y_proc;
 
 //Process to move the ball
 always @(posedge clk) begin
-    if(reset_n == 1'b0) begin
+    if((reset_n == 1'b0)) begin
         ball_center_x_proc <= 10'b0101000000;
         ball_center_y_proc <= 10'b0011011100;
     end else if(cw_ballMovement == 4'b0010) begin //Up Left
@@ -50,7 +50,8 @@ always @(posedge clk) begin
     end else if(cw_ballMovement == 4'b0001) begin //Down Right
         ball_center_x_proc <= ball_center_x_proc + 10'b0000000001;
         ball_center_y_proc <= ball_center_y_proc + 10'b0000000001;
-    end else if(cw_ballMovement == 4'b0101) begin //Reset
+    end 
+    else if(cw_ballMovement == 4'b0101) begin //Reset
         ball_center_x_proc <= 10'b0101000000;
         ball_center_y_proc <= 10'b0011011100;
     end
