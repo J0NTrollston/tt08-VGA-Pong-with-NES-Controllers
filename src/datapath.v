@@ -61,7 +61,8 @@ reg [9:0] rightPaddle;
 wire [9:0] ball_center_x, ball_center_y;
 reg [3:0] sw_ballMovement_reg;
 reg ballReset;
-wire ballClk; //temp
+wire [16:0] ballClk_Q;
+wire ballClk; 
 
 wire NES_delay_counter_roll;
 wire NES_counter_roll;
@@ -113,7 +114,8 @@ Counter #(.countLimit(419583)) NES_delay_counter_left(
     .reset_n(reset_n),
     
     .ctrl(cw_NESController_Left[9:8]),
-    .roll(NES_delay_counter_roll)
+    .roll(NES_delay_counter_roll),
+    .Q(ballClk)
     );
 
 ////Polls the right NES controler button presses 60Hz  
@@ -125,14 +127,14 @@ Counter #(.countLimit(419583)) NES_delay_counter_left(
 //    .roll(sw_NESController_Right[1])
 //    );
 
-// Controls how fast the ball moves
-Counter #(.countLimit(100000)) temp(
-    .clk(clk),
-    .reset_n(reset_n),
+//// Controls how fast the ball moves
+//Counter #(.countLimit(100000)) temp(
+//    .clk(clk),
+//    .reset_n(reset_n),
     
-    .ctrl(2'b01), // always on
-    .roll(ballClk)
-    );
+//    .ctrl(2'b01), // always on
+//    .roll(ballClk)
+//    );
 
 //Controls the position of the ball based on the control word
 ballFunction ballFunction(
@@ -265,5 +267,7 @@ assign sw_NESController_Right[1] = NES_delay_counter_roll;
 
 assign sw_NESController_Left[0] = NES_counter_roll;
 assign sw_NESController_Right[0] = NES_counter_roll;
+
+assign ballClk = ((ballClk == 104895) || (ballClk == 209790) || (ballClk == 314685) || (ballClk == 419580)) ? 1'b1 : 1'b0;
 
 endmodule
