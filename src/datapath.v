@@ -147,8 +147,8 @@ ballFunction ballFunction(
 //saves the current state of each button press on each poll of the controller
 always @(posedge clk) begin
     if(reset_n == 1'b0) begin
-        NES_wire_Left <= 4'b0;
-        NES_wire_Right <= 4'b0;
+        NES_wire_Left <= 4'd0;
+        NES_wire_Right <= 4'd0;
     end else begin
     
         //Left controller input
@@ -185,17 +185,17 @@ always @(posedge clk) begin
     
     if(reset_n == 1'b0) begin
         old_NES_Left <= 8'd0;
-        leftPaddle <= 10'd220;
+        leftPaddle <= 8'd220;
         ballReset <= 1'b0;
         
         old_NES_Right <= 8'd0;
-        rightPaddle <= 10'd220;
+        rightPaddle <= 8'd220;
     end
 
     if((NES_activity_Left[3] == 1'b1)) begin //Select
         ballReset <= 1'b0;
-        leftPaddle <= 10'd220;
-        rightPaddle <= 10'd220;
+        leftPaddle <= 8'd220;
+        rightPaddle <= 8'd220;
         NES_activity_Left <= 8'd0;
 //        NES_activity_Right <= 8'd0;
 //        old_NES_Right <= 8'd0;
@@ -212,8 +212,8 @@ always @(posedge clk) begin
     
     if(NES_activity_Right[3] == 1'b1) begin //Select
         ballReset <= 1'b0;
-        rightPaddle <= 10'd220;
-        leftPaddle <= 10'd220;
+        rightPaddle <= 8'd220;
+        leftPaddle <= 8'd220;
         NES_activity_Right <= 8'd0;
         old_NES_Right <= 8'd0;
     end else if(NES_activity_Right[2] == 1'b1) begin //Start
