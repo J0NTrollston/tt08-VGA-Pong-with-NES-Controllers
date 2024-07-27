@@ -5,7 +5,7 @@
 SIM ?= icarus
 TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../src
-PROJECT_SOURCES = tt_um_brandonramos_VGA_Pong_with_NES_Controllers.v ballFunction.v control_unit.v counter.v datapath.v display.v NES_Controller_FSM.v Pong.v vga.v video.v
+PROJECT_SOURCES = tt_um_brandonramos_VGA_Pong_with_NES_Controllers.v ballFunction.v control_unit.v counter.v datapath.v display.v NES_Controller_FSM.v Pong.v vga.v
 
 ifneq ($(GATES),yes)
 
