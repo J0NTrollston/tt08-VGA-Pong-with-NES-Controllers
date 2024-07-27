@@ -48,12 +48,12 @@ module datapath(
     );
     
 // Left controller registers
-reg [4:0] NES_activity_Left, old_NES_Left;
+reg [3:0] NES_activity_Left, old_NES_Left;
 reg [3:0] NES_wire_Left;
 reg [9:0] leftPaddle;
 
 // Right controller registers
-reg [4:0] NES_activity_Right, old_NES_Right;
+reg [3:0] NES_activity_Right, old_NES_Right;
 reg [3:0] NES_wire_Right;
 reg [9:0] rightPaddle;
 
@@ -66,7 +66,7 @@ wire ballClk; //temp
 wire NES_delay_counter_roll;
 wire NES_counter_roll;
 
-video video(
+vga vga(
     .clk(clk),
     .reset_n(reset_n),
 
@@ -93,7 +93,7 @@ Counter #(.countLimit(152)) NES_counter_left(
     .reset_n(reset_n),
     
     .ctrl(cw_NESController_Left[1:0]),
-    .roll(sw_NESController_Left[0])
+    .roll(NES_counter_roll)
     );
 
 
