@@ -16,13 +16,13 @@ module tt_um_brandonramos_VGA_Pong_with_NES_Controllers (
     input  wire       rst_n     // reset_n - low to reset
 );
 
-wire [7:0] out;
-wire [7:0] bidir;
+wire [4:0] out;
+wire [5:0] bidir;
 
 Pong Pong(
   .clk(clk),
   .reset_n(rst_n),
-  .in(ui_in),
+  // .in(ui_in),
   .out(out),
   .bidir(bidir)
   );
