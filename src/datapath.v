@@ -115,8 +115,9 @@ Counter #(.countLimit(419583)) NES_delay_counter_left(
     
     .ctrl(cw_NESController_Left[9:8]),
     .roll(NES_delay_counter_roll),
-    .Q(ballClk)
+    .Q(ballClk_Q)
     );
+
 
 ////Polls the right NES controler button presses 60Hz  
 //Counter #(.countLimit(419583)) NES_delay_counter_right(
@@ -268,6 +269,7 @@ assign sw_NESController_Right[1] = NES_delay_counter_roll;
 assign sw_NESController_Left[0] = NES_counter_roll;
 assign sw_NESController_Right[0] = NES_counter_roll;
 
-assign ballClk = ((ballClk == 104895) || (ballClk == 209790) || (ballClk == 314685) || (ballClk == 419580)) ? 1'b1 : 1'b0;
+assign ballClk = ((ballClk_Q == 104895) || (ballClk_Q == 209790) || (ballClk_Q == 314685) || (ballClk_Q == 419580)) ? 1'b1 : 1'b0;
+
 
 endmodule
