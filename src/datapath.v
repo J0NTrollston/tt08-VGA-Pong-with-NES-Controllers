@@ -61,7 +61,6 @@ reg [9:0] rightPaddle;
 wire [9:0] ball_center_x, ball_center_y;
 reg [3:0] sw_ballMovement_reg;
 reg ballReset;
-wire [16:0] ballClk_Q;
 wire ballClk; 
 
 wire NES_delay_counter_roll;
@@ -114,8 +113,8 @@ Counter #(.countLimit(419583)) NES_delay_counter_left(
     .reset_n(reset_n),
     
     .ctrl(cw_NESController_Left[9:8]),
-    .roll(NES_delay_counter_roll),
-    .Q(ballClk_Q)
+    .roll(NES_delay_counter_roll)
+//    .Q(ballClk)
     );
 
 
@@ -137,9 +136,34 @@ Counter #(.countLimit(419583)) NES_delay_counter_left(
 //    .roll(ballClk)
 //    );
 
+//reg [2:0] ball_clk_reg;
+//always @(posedge NES_counter_roll) begin
+//    if (reset_n == 1'b0)
+//        ball_clk_reg <= 0;
+//    else if(ball_clk_reg < 4) begin
+//        ballClk <= 0;
+//        ball_clk_reg <= ball_clk_reg + 1;
+//    end else if(ball_clk_reg == 4) begin
+//        ballClk <= 1;
+//        ball_clk_reg <= 0; 
+//    end
+//end
+
+reg [2:0] ball_clk_reg;
+always @(posedge NES_counter_roll) begin
+    if (reset_n == 1'b0)
+        ball_clk_reg <= 0;
+    else if(ball_clk_reg < 4)
+        ball_clk_reg <= ball_clk_reg + 1;
+    else if(ball_clk_reg == 4)
+            ball_clk_reg <= 0; 
+end
+            
+assign ballClk = (ball_clk_reg == (4)) ? 1'b1 : 1'b0;
+
 //Controls the position of the ball based on the control word
 ballFunction ballFunction(
-    .clk(ballClk), //60hz
+    .clk(ballClk), 
     .reset_n(ballReset),
     
     .cw_ballMovement(cw_ballMovement),
@@ -268,8 +292,5 @@ assign sw_NESController_Right[1] = NES_delay_counter_roll;
 
 assign sw_NESController_Left[0] = NES_counter_roll;
 assign sw_NESController_Right[0] = NES_counter_roll;
-
-assign ballClk = ((ballClk_Q == 104895) || (ballClk_Q == 209790) || (ballClk_Q == 314685) || (ballClk_Q == 419580)) ? 1'b1 : 1'b0;
-
 
 endmodule
