@@ -34,6 +34,9 @@ module vga(
     input wire [9:0] leftPaddle,
     input wire [9:0] rightPaddle,
     
+    input wire [3:0] scoreLeft,
+    input wire [3:0] scoreRight,
+    
     input wire [9:0] ball_center_x,
     input wire [9:0] ball_center_y
     );
@@ -76,6 +79,9 @@ display display(
     
     .leftPaddle(leftPaddle),
     .rightPaddle(rightPaddle),
+    
+    .scoreLeft(scoreLeft),
+    .scoreRight(scoreRight),
     
     .ball_center_x(ball_center_x),
     .ball_center_y(ball_center_y)
