@@ -28,7 +28,7 @@ Pong Pong(
 
   // All output pins must be assigned. If not used, assign to 0.
   // assign uo_out  = ({3'b000, out[4], out[3], out[2], out[1], out[0]});
-  assign u0_out = {out[2], out[3], out[4], out[1], out[2], out[3], out[4], out[0]};//for TinyTapeout Tiny VGA Pmod
+  assign uo_out = {out[2], out[3], out[4], out[1], out[2], out[3], out[4], out[0]};//for TinyTapeout Tiny VGA Pmod
   assign uio_out = ({2'b00, bidir[5], bidir[4], 1'b0, bidir[2], bidir[1], 1'b0});
   assign uio_oe  = 8'b0110_110;
 
