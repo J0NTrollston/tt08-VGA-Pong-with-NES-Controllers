@@ -36,10 +36,14 @@ reg [WIDTH-1:0] processQ; //width of signal set by VGA timing 640x480 (total: ro
 always @(posedge clk) begin
     if (reset_n == 1'b0)
         processQ <= 0;
-    else if ((processQ < countLimit) && (ctrl == 2'b01))
-        processQ <= processQ + 1;
-    else if ((processQ == countLimit) && (ctrl == 2'b01))
-                processQ <= 0; 
+    else begin
+        if(ctrl == 2'b11)
+            processQ <= 0;
+        else if ((processQ < countLimit) && (ctrl == 2'b01))
+            processQ <= processQ + 1;
+        else if ((processQ == countLimit) && (ctrl == 2'b01))
+            processQ <= 0; 
+    end
 end
             
 assign Q = processQ;

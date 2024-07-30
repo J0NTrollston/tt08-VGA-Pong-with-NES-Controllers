@@ -121,7 +121,9 @@ always @(posedge clk) begin
                 else
                     state_ballMovement <= DownRight;
             end
-            default: state_ballMovement <= Reset;
+            default: begin
+                //Do nothing
+            end
         endcase
     end
 end

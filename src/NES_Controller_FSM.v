@@ -131,6 +131,9 @@ always @(posedge clk) begin
                 if(sw_NESController[0] == 1'b1)
                     state_NESController <= Reset;
             end
+            default: begin
+                //Do nothing
+            end
         endcase
     end
 end
@@ -148,7 +151,7 @@ Control Word Table for NES Controller (cw_NESController[9:0] 00_0000_0_0_00)
 State           Count_ctrl(NES_delay_counter)       Data_read           Latch_enb       Clock_enb       Count_ctrl (NES_counter)
                 00 - hold                           0000 - none         0 - disable     0 - disable     00 - hold
                 01 - increment                      0001 - A            1 - enable      1 - enable      01 - increment
-                11 - synch reset                    0010 - B                                            11 - synch reset
+                11 - synch reset                    0010 - B                                            11 - asynch reset
                                                     0011 - Select
                                                     0100 - Start
                                                     0101 - Up
