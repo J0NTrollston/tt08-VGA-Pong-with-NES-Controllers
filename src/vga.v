@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+//`timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: TinyTapeot 8
 // Engineer: Brandon S. Ramos
@@ -31,6 +31,7 @@ module vga(
     output wire g,
     output wire b,
     
+    //Inputs to display to screen
     input wire [9:0] leftPaddle,
     input wire [9:0] rightPaddle,
     

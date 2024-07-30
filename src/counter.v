@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+//`timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: TinyTapeout 8
 // Engineer: Brandon S. Ramos
@@ -39,7 +39,7 @@ always @(posedge clk) begin
     else if ((processQ < countLimit) && (ctrl == 2'b01))
         processQ <= processQ + 1;
     else if ((processQ == countLimit) && (ctrl == 2'b01))
-                processQ <= 10'd0; 
+                processQ <= 0; 
 end
             
 assign Q = processQ;

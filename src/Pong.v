@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+//`timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: TinyTapeout 8
 // Engineer: Brandon S. Ramos
@@ -15,29 +15,19 @@
 // 
 // Revision:
 // Revision 0.01 - File Created
-// Additional Comments:
+// Additional Comments: This design was converted from a past school VHDL final project 
+// worked on by Tate Anderson and myself at the University of Nebraska-Lincoln 
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
 /*
-Input:
-    1. 
-    2.
-    3. 
-    4. 
-    5. 
-    6.
-    7.
-    8.
+Input: N/A
 Output:
     1. h_sync
     2. v_sync
     3. r
     4. g
     5. b
-    6.
-    7.
-    8.
 Bidirectional:
     1. NES_Controller_Left[0] data
     2. NES_Controller_Left[1] clock
@@ -45,25 +35,12 @@ Bidirectional:
     4. NES_Controller_Right[0] data
     5. NES_Controller_Right[1] clock
     6. NES_Controller_Right[2] latch
-    7.
-    8.
 */
 
 module Pong(
     input wire clk,
-    input wire reset_n, //A7 FPGA uses active low reset signal
+    input wire reset_n, 
     
-    //VGA timing and picture
-//    output wire h_sync,
-//    output wire v_sync,
-//    output wire r,
-//    output wire g,
-//    output wire b,
-    
-    //NES Controller input for left/right
-//    inout wire [2:0] NES_Controller_Left,
-//    inout wire [2:0] NES_Controller_Right
-//    input wire [7:0] in,
     output wire [4:0] out,
     inout wire [5:0] bidir
     );
@@ -79,7 +56,6 @@ wire [3:0] sw_ballMovement;
 wire [3:0] cw_ballMovement;
 
 wire [2:0] NES_Controller_Left, NES_Controller_Right;
-wire data_left, data_right;
 wire h_sync, v_sync, r, g, b;
     
 datapath datapath(
@@ -128,16 +104,15 @@ control_unit control_unit(
     .cw_ballMovement(cw_ballMovement)
     ); 
 
-   
-assign out = ({b, g, r, v_sync, h_sync});
-// assign bidir = ({2'b00, NES_Controller_Right[2], NES_Controller_Right[1], NES_Controller_Right[0], NES_Controller_Left[2], NES_Controller_Left[1], NES_Controller_Left[0]});
 
-assign NES_Controller_Left[0] = bidir[0];
-assign bidir[1] = NES_Controller_Left[1];
-assign bidir[2] = NES_Controller_Left[2];
-assign NES_Controller_Right[0] = bidir[3];
-assign bidir[4] = NES_Controller_Right[1];
-assign bidir[5] = NES_Controller_Right[2];
-//assign bidir[7:6] = 2'b00;
+//Convert module signals to TinyTapeout I/O
+assign out = ({b, g, r, v_sync, h_sync});
+
+assign NES_Controller_Left[0] = bidir[0];  //Left controller data in
+assign bidir[1] = NES_Controller_Left[1];  //Left Pulse out
+assign bidir[2] = NES_Controller_Left[2];  //Left Latch out
+assign NES_Controller_Right[0] = bidir[3]; //Right controller data in
+assign bidir[4] = NES_Controller_Right[1]; //Right Pulse out
+assign bidir[5] = NES_Controller_Right[2]; //Right Pulse out
 
 endmodule

@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+//`timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: TinyTapeout 8
 // Engineer: Brandon S. Ramos
@@ -23,8 +23,10 @@ module ballFunction(
     input wire clk,
     input wire reset_n,
     
+    //Ball movement control
     input wire [3:0] cw_ballMovement,
     
+    //Where to display ball
     output wire [9:0] ball_center_x,
     output wire [9:0] ball_center_y
     );

@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+//`timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: TinyTapeout 8
 // Engineer: Brandon S. Ramos
@@ -47,12 +47,12 @@ module datapath(
     input wire [3:0] cw_ballMovement
     );
     
-// Left controller registers
+//Left controller registers
 reg [7:0] NES_activity_Left, old_NES_Left;
 reg [7:0] NES_wire_Left;
 reg [9:0] leftPaddle;
 
-// Right controller registers
+//Right controller registers
 reg [7:0] NES_activity_Right, old_NES_Right;
 reg [7:0] NES_wire_Right;
 reg [9:0] rightPaddle;
@@ -63,6 +63,7 @@ reg [3:0] sw_ballMovement_reg;
 reg ballReset;
 wire ballClk; 
 
+//Scoreboard signals
 reg [3:0] scoreLeftProc, scoreRightProc;
 wire [3:0] scoreLeft, scoreRight; 
 reg score_flag;
@@ -90,8 +91,8 @@ vga vga(
     .ball_center_y(ball_center_y)
     );
     
-// Used to create the 6us delay to read the left NES controller   
-// For 25.175MHz clock, use 152 to delay for 6us
+//Used to create the 6us delay to read the left NES controller   
+//For 25.175MHz clock, use 152 to delay for 6us
 Counter #(.countLimit(152)) NES_counter_left(
     .clk(clk),
     .reset_n(reset_n),
@@ -100,8 +101,8 @@ Counter #(.countLimit(152)) NES_counter_left(
     .roll(sw_NESController_Left[0])
     );
     
-// Used to create the 6us delay to read the right NES controller   
-// For 25.175MHz clock, use 152 to delay for 6us
+//Used to create the 6us delay to read the right NES controller   
+//For 25.175MHz clock, use 152 to delay for 6us
 Counter #(.countLimit(152)) NES_counter_right(
     .clk(clk),
     .reset_n(reset_n),
@@ -110,8 +111,8 @@ Counter #(.countLimit(152)) NES_counter_right(
     .roll(sw_NESController_Right[0])
     );
 
-// Polls the Left NES controler button presses 60Hz  
-// For 25.175MHz clock, use 419583 to delay for 660Hz
+//Polls the Left NES controler button presses 60Hz  
+//For 25.175MHz clock, use 419583 to delay for 660Hz
 Counter #(.countLimit(419583)) NES_delay_counter_left(
     .clk(clk),
     .reset_n(reset_n),
@@ -120,8 +121,8 @@ Counter #(.countLimit(419583)) NES_delay_counter_left(
     .roll(sw_NESController_Left[1])
     );
 
-// Polls the right NES controler button presses 60Hz  
-// For 25.175MHz clock, use 419583 to delay for 660Hz
+//Polls the right NES controler button presses 60Hz  
+//For 25.175MHz clock, use 419583 to delay for 660Hz
 Counter #(.countLimit(419583)) NES_delay_counter_right(
     .clk(clk),
     .reset_n(reset_n),
@@ -130,8 +131,8 @@ Counter #(.countLimit(419583)) NES_delay_counter_right(
     .roll(sw_NESController_Right[1])
     );
 
-// Controls how fast the ball moves
-Counter #(.countLimit(100000)) temp(
+//Controls how fast the ball moves
+Counter #(.countLimit(100000)) Ball_Clock(
     .clk(clk),
     .reset_n(reset_n),
     
@@ -149,7 +150,7 @@ ballFunction ballFunction(
     .ball_center_y(ball_center_y)
     );
 
-//saves the current state of each button press on each poll of the controller
+//Saves the current state of each button press on each poll of the controller
 always @(posedge clk) begin
     if(reset_n == 1'b0) begin
         NES_wire_Left <= 8'b0;
@@ -184,7 +185,9 @@ always @(posedge clk) begin
     end
 end
 
+//Process to determine the NES Controller input
 always @(posedge clk) begin
+    //Reset all values
     if(reset_n == 1'b0) begin
         NES_activity_Left <= 8'd0;
         NES_activity_Right <= 8'd0;
@@ -216,11 +219,11 @@ always @(posedge clk) begin
             ballReset <= 1'b1;
             score_flag <= 1'b1;
         end else if(NES_activity_Left[3] == 1'b1) begin //Up
-            if(leftPaddle - 4'd5 >= 45)
-                leftPaddle <= leftPaddle - 4'd5;
+            if(leftPaddle - 10'd5 >= 45)
+                leftPaddle <= leftPaddle - 10'd5;
         end else if(NES_activity_Left[2] == 1'b1) begin //Down
-            if(leftPaddle + 4'd5 <= 395)
-                leftPaddle <= leftPaddle + 4'd5;
+            if(leftPaddle + 10'd5 <= 395)
+                leftPaddle <= leftPaddle + 10'd5;
         end
         
         if(NES_activity_Right[5] == 1'b1) begin //Select
@@ -235,11 +238,11 @@ always @(posedge clk) begin
             ballReset <= 1'b1;
             score_flag <= 1'b1;
         end else if(NES_activity_Right[3] == 1'b1) begin //Up
-            if(rightPaddle - 4'd5 >= 45)
-                rightPaddle <= rightPaddle - 4'd5;
+            if(rightPaddle - 10'd5 >= 45)
+                rightPaddle <= rightPaddle - 10'd5;
         end else if(NES_activity_Right[2] == 1'b1) begin //Down
-            if(rightPaddle + 4'd5 <= 395)
-                rightPaddle <= rightPaddle + 4'd5;
+            if(rightPaddle + 10'd5 <= 395)
+                rightPaddle <= rightPaddle + 10'd5;
         end
         
         if(score_flag == 1'b1) begin    

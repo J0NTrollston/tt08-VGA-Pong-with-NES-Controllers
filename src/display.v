@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+//`timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: TinyTapeout 8
 // Engineer: Brandon S. Ramos
@@ -20,13 +20,16 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 module display(
+    //Coordinates for display
     input wire [9:0] column,
     input wire [9:0] row,
     
+    //Determines what pixels have color and where
     output wire r,
     output wire g,
     output wire b,
     
+    //Inputs to display to screen
     input wire [9:0] leftPaddle,
     input wire [9:0] rightPaddle,
     
@@ -37,6 +40,7 @@ module display(
     input wire [9:0] ball_center_y
     );
     
+//Display signals
 wire inside_border, verticle_lines, horizontal_lines, white, leftPaddle_en, rightPaddle_en, ball;
 wire [6:0] leftScore, rightScore;
     

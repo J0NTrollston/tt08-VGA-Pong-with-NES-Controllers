@@ -22,7 +22,6 @@ wire [5:0] bidir;
 Pong Pong(
   .clk(clk),
   .reset_n(rst_n),
-  // .in(ui_in),
   .out(out),
   .bidir(bidir)
   );
