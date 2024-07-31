@@ -41,7 +41,7 @@ module Pong(
     input wire clk,
     input wire reset_n, 
     
-    output wire [4:0] out,
+    output wire [7:0] out,
     inout wire [5:0] bidir
     );
     
@@ -106,7 +106,7 @@ control_unit control_unit(
 
 
 //Convert module signals to TinyTapeout I/O
-assign out = ({b, g, r, v_sync, h_sync});
+assign out = ({h_sync, b, g, r, v_sync, b, g, r});
 
 assign NES_Controller_Left[0] = bidir[0];  //Left controller data in
 assign bidir[1] = NES_Controller_Left[1];  //Left Pulse out
